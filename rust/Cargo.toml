@@ -1,0 +1,9 @@
+[package]
+name = "diplomat-test"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+diplomat = "0.11.0"
+diplomat-runtime = "0.11.0"
+
