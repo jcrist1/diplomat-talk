@@ -1,0 +1,251 @@
+#[derive(Default)]
+struct Last<T>(Option<T>);
+impl<T> Extend<T> for Last<T> {
+    fn extend<I: IntoIterator<Item = T>>(&mut self, iter: I) {
+        let inner = iter.into_iter().last();
+        self.0 = inner;
+    }
+}
+pub const LIPSUM: &str = r#"
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pharetra diam at aliquet lacinia. Donec porttitor elit in nisl viverra ornare eget id ante. Ut bibendum vel enim sit amet faucibus. Donec interdum nec mauris non porta. Integer pretium arcu a dui faucibus interdum. Phasellus placerat pretium nibh, quis efficitur ligula ultrices eget. Cras convallis eu sem quis mattis. Nunc sit amet ipsum ante. Aenean at massa diam. Mauris ornare, felis a suscipit pulvinar, ex lectus commodo lorem, at ullamcorper tortor mauris sit amet tortor. Praesent dictum nibh a lacinia vehicula.
+        Sed laoreet pretium massa, et commodo sem accumsan quis. Fusce viverra mattis luctus. Nam eu pretium ligula, nec semper sapien. Praesent tincidunt diam eros, ac porttitor nibh tincidunt nec. Aenean erat libero, accumsan ac est a, malesuada eleifend felis. Aenean a risus erat. Nunc vestibulum, turpis facilisis tincidunt consequat, turpis lorem bibendum neque, in venenatis leo purus molestie risus. Praesent eget auctor massa. Nunc fringilla sed erat eu vehicula. Morbi condimentum, purus a mollis fringilla, eros augue venenatis neque, eu mollis enim sem vel ligula.
+        Nunc in ante vel justo lacinia eleifend. Nulla sit amet porttitor elit. Morbi gravida laoreet eros, eget suscipit lacus vestibulum facilisis. Nunc at pharetra elit. Nam porta posuere tellus, non rutrum est auctor in. Donec at vulputate ipsum. Proin posuere luctus est, in venenatis urna maximus in. Nullam posuere, neque vitae suscipit scelerisque, augue lorem placerat nibh, et porttitor tortor ex quis neque. Etiam vel blandit metus, a consectetur risus. Etiam a velit commodo, volutpat nulla non, maximus lectus. Praesent gravida, felis in finibus fermentum, lacus neque faucibus dolor, vitae consequat magna ipsum at velit. Quisque molestie cursus quam eu sodales. Curabitur et purus orci. Fusce tincidunt magna ac arcu convallis imperdiet.
+        Suspendisse pretium pretium dolor, ac blandit lorem sagittis eget. Donec ac eros fringilla, vulputate ante id, venenatis urna. Sed tristique semper eros, a tristique augue rhoncus eget. Etiam ut lectus in lectus ultrices condimentum. Mauris nec lorem id libero maximus maximus a auctor risus. Vivamus et mauris fermentum, ultrices nulla sit amet, rutrum sem. Nullam malesuada efficitur justo, ut luctus purus scelerisque quis. Nulla ut odio bibendum, varius ante non, dictum orci. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nullam et leo leo. Cras quis risus vel lacus gravida posuere id ac mi. Morbi sodales sagittis arcu, eu maximus massa porta eget. Nulla egestas, velit eu imperdiet cursus, nunc nisl dignissim arcu, eu porta neque turpis in elit. Duis neque erat, viverra posuere mauris id, faucibus egestas dolor. Nullam non neque eros.
+        Cras venenatis felis et nisi blandit malesuada. Cras vel vulputate risus. Sed velit nisl, mollis et scelerisque ut, rhoncus nec augue. Praesent fermentum condimentum enim, sed ullamcorper dui. Donec maximus vulputate ante eu accumsan. Fusce consectetur lectus id metus blandit, sit amet consequat diam vestibulum. Praesent viverra tellus posuere, sagittis quam in, efficitur ex. Suspendisse et sem et augue efficitur pharetra in non dolor. Suspendisse mattis, ante quis placerat dapibus, tellus lacus tempor lacus, id porta massa nunc et massa. Phasellus sapien orci, tristique vitae euismod id, vulputate vel metus. Duis aliquet blandit magna non faucibus. Donec dictum, augue in rutrum ultrices, purus lacus bibendum libero, id egestas turpis diam vitae orci. Mauris tincidunt bibendum tortor lobortis ornare. Mauris quis tempor orci.
+        Morbi sit amet mattis massa. Integer mattis ante in lorem sodales elementum. Aenean aliquam sit amet ligula et pharetra. Nam leo est, consectetur id ex vitae, ultrices viverra nisl. Aliquam nec nulla ultrices, dignissim elit sed, pharetra lacus. Aenean massa lacus, consequat ut libero non, feugiat commodo neque. In vel nisl mattis, gravida mi quis, facilisis leo. Aenean non urna magna. Proin dictum dui eu sem suscipit placerat. Aliquam ac mi ac augue scelerisque tincidunt.
+        Duis eget pretium metus, vitae cursus nibh. Quisque laoreet imperdiet nulla in eleifend. Cras in tincidunt felis. Quisque pellentesque justo ornare massa semper lobortis ut a est. Vivamus aliquam gravida porta. Ut tempus metus vitae massa dictum, quis facilisis quam interdum. Proin pharetra maximus ipsum in auctor. Praesent dignissim, mauris a fringilla ultricies, elit quam aliquam purus, nec tempor neque est vitae leo. Quisque efficitur libero ac interdum fringilla. Nullam pretium tempor leo eu vestibulum. Integer nec scelerisque massa. Integer nec congue odio. Aliquam consectetur nisi lacus, et accumsan lectus ornare in. Integer eu purus aliquet, placerat ex id, scelerisque eros. Donec dignissim dui quis suscipit vehicula. Aenean aliquet tristique quam quis rutrum.
+        Duis placerat lectus ut elementum lacinia. Integer tincidunt arcu velit, et rutrum lectus auctor at. Praesent ultrices convallis nisl, id elementum turpis cursus non. Aliquam fermentum dui sed justo elementum, vel pretium nunc rhoncus. Pellentesque mauris metus, dignissim vitae lectus at, gravida porttitor augue. Pellentesque nec dictum nunc. Quisque leo ipsum, suscipit in felis id, mattis varius metus. Sed a purus odio. Vivamus mauris arcu, ullamcorper nec dui in, pellentesque tempus eros. Integer viverra, tellus sed efficitur posuere, massa nisi sodales diam, et tempor dui lorem sed ex. Maecenas tempor dictum justo. Quisque consequat nisi eu ornare porta. Phasellus iaculis urna magna, ut scelerisque mauris tristique et. Cras sodales accumsan elit, et mollis felis eleifend ac. Aliquam eleifend augue lacus, ac consectetur lorem semper id.
+        Sed vehicula sit amet lorem non imperdiet. Etiam congue id nulla nec venenatis. Etiam nec velit porttitor, placerat quam nec, tempus libero. Suspendisse iaculis enim vehicula ante ultrices, at sodales mi gravida. Nullam quis nisl lacinia, consequat est nec, tincidunt nisi. Sed dignissim euismod erat vitae porttitor. Quisque sagittis tempor nulla vel malesuada. Suspendisse fringilla sem id risus pellentesque, sed condimentum sapien tincidunt. Donec eget fringilla diam.
+        Aliquam scelerisque enim et libero condimentum porta. Aliquam tempus odio ut posuere laoreet. Sed mattis accumsan luctus. Cras non diam metus. Nunc lobortis vestibulum ex, at efficitur metus mattis ac. Donec mauris mi, facilisis et sapien pellentesque, commodo suscipit lorem. In libero lacus, rutrum vel tempor et, bibendum at libero.
+        Aliquam tristique odio malesuada ipsum euismod, at faucibus ipsum mollis. Fusce congue tellus et magna tincidunt, sed auctor diam hendrerit. Nulla a orci nisl. Aenean ultrices felis in eleifend vestibulum. Duis bibendum auctor metus pellentesque hendrerit. Maecenas venenatis felis tellus, vel ornare mauris egestas quis. Nunc euismod ligula non facilisis porttitor. Nunc eget risus nulla. In nec lacus tellus. Integer accumsan, ipsum sed ullamcorper fringilla, erat urna laoreet nulla, eget molestie risus metus ut quam. Sed suscipit sit amet ex et egestas. Donec sollicitudin euismod nulla sed commodo. Sed tristique pellentesque odio ac fringilla. Duis ut egestas turpis, sed vulputate nulla.
+        Integer vel interdum sapien. Vestibulum a risus in sapien viverra convallis ut at tellus. Aenean euismod facilisis lacus, et mollis quam. Pellentesque id dignissim purus. Mauris nec risus eget massa porta molestie. Donec non mi sodales orci tincidunt volutpat ac ut sem. Curabitur interdum augue felis, quis laoreet lacus aliquet nec. Cras vehicula a eros et iaculis. Suspendisse at feugiat felis. Suspendisse dictum porta erat, ac semper tortor dapibus vitae. Sed pellentesque nisi eget neque mattis dictum. Cras eu arcu vel nunc imperdiet porttitor. Quisque vitae faucibus dui. Phasellus efficitur eget metus sed luctus. Sed vel metus egestas, porttitor sem sit amet, efficitur justo. In quis pharetra neque, ac condimentum erat.
+        Nulla lobortis lacinia neque, ut fermentum elit gravida at. Nam ac dapibus erat. In imperdiet enim in dolor commodo, sed interdum nibh lobortis. Aenean et vulputate purus. Sed ligula ipsum, commodo eu tincidunt quis, bibendum vel tortor. In vel ultrices nisi. Sed nunc justo, ullamcorper id ante hendrerit, rhoncus cursus mi. Duis nunc diam, semper vitae dolor quis, posuere faucibus nibh. Aliquam mollis tristique rhoncus. Phasellus ultrices, mi ornare varius interdum, tellus velit pellentesque sapien, sed lacinia mauris sem sit amet nibh. Fusce leo erat, pretium id volutpat a, dignissim id est. Donec turpis turpis, facilisis ac efficitur id, elementum eget elit. Nullam vitae tincidunt neque, eu varius mauris. Sed tempus luctus est. Pellentesque vel consequat magna.
+        Vivamus dignissim mattis fringilla. Vestibulum ultrices risus laoreet consectetur euismod. Nam in lacus in erat tincidunt dictum. Praesent a arcu ante. Nunc tellus quam, ullamcorper vitae neque at, vehicula vestibulum ex. Vestibulum neque nibh, convallis at justo consequat, pharetra aliquam lorem. Aenean at lorem ligula. Ut velit odio, condimentum nec enim non, egestas pellentesque dui.
+        Maecenas euismod turpis est, sit amet tempus orci dapibus vel. Integer ut feugiat leo. Morbi sodales risus urna, eu vulputate arcu eleifend a. Fusce nec justo id arcu semper commodo eu ut quam. Maecenas arcu enim, malesuada eu tincidunt quis, venenatis et quam. Duis malesuada orci a tristique posuere. Nunc ac eleifend dui, vel interdum odio. Sed sit amet interdum magna, in ultrices quam. Phasellus ultricies ante sed lorem convallis, nec hendrerit libero sollicitudin.
+        Sed quis nulla ut ex rhoncus mattis vel eu tellus. Phasellus at feugiat neque. Vestibulum id risus lorem. Morbi sed elit ex. Integer non aliquet lorem. Cras porta placerat hendrerit. Integer nulla arcu, facilisis nec pharetra sed, vestibulum id libero. Suspendisse eleifend lorem eu velit porttitor, id molestie ante semper. Vestibulum bibendum pellentesque mi in tincidunt. Nullam egestas vehicula ligula eu vehicula.
+        Mauris aliquet mattis augue vel ornare. Phasellus dictum consectetur enim, non luctus libero posuere a. Etiam dapibus tristique ipsum, ut volutpat mi lobortis eu. Donec condimentum eget erat vitae vestibulum. Morbi pretium non libero ac eleifend. Aliquam varius nec nibh eu faucibus. Curabitur purus est, egestas sed enim quis, ultrices porttitor risus. Maecenas sodales neque diam, ac blandit metus bibendum ac. Nulla eleifend libero enim, vulputate aliquet risus gravida fermentum. Aenean eu justo mauris. Nam vel risus in ante posuere tempor quis sit amet mi. In nec volutpat felis, et laoreet ante. Fusce interdum, felis non vehicula viverra, massa eros accumsan ex, at suscipit nibh odio eu orci.
+        Nunc rutrum elementum quam, non ultrices dui pretium nec. Praesent eget convallis ex. Curabitur sit amet hendrerit ipsum. Aliquam erat volutpat. Nam sollicitudin aliquet nunc, sit amet ultricies nisl feugiat vel. Donec ultricies nec lorem vitae facilisis. Morbi auctor nulla ut rutrum posuere. Morbi ultricies fermentum libero a sagittis. Sed sit amet velit convallis, tincidunt dui vitae, iaculis nisi. Aliquam ullamcorper risus sollicitudin ultrices malesuada. Proin condimentum vitae tellus in aliquam.
+        Aenean ut nibh lorem. Ut volutpat nibh quis est placerat, in finibus justo aliquet. Sed posuere, magna eget tristique posuere, sem justo tincidunt elit, vel lobortis nunc risus tristique massa. Aenean quis rutrum nunc. Cras placerat scelerisque neque, eget sollicitudin risus commodo eget. Vivamus nec dui at lacus consequat iaculis. Maecenas bibendum elementum mi, eget volutpat libero hendrerit sed. Ut hendrerit pharetra erat, egestas posuere nulla luctus eget. Quisque mollis fermentum sem, nec pretium nulla condimentum vel. Maecenas faucibus aliquet ornare. Duis eu laoreet tortor, vel accumsan ligula. Suspendisse et mi at arcu gravida consectetur. Ut ultrices convallis mauris ut mattis.
+        Aenean nec urna nec magna commodo porttitor gravida in leo. Sed volutpat ipsum quis lorem imperdiet dignissim. Curabitur quis interdum eros. In ut felis vitae nisl fermentum aliquam. Cras cursus eros sem, quis scelerisque lacus fermentum a. Proin feugiat ultricies orci, ut mattis metus cursus ut. Pellentesque gravida erat et nulla gravida, at tempor diam pretium. Praesent elementum quis metus nec ornare. Morbi metus nunc, ultricies ut dui sed, tincidunt vulputate justo. Cras eu elit sit amet felis posuere interdum. In dictum, massa eu euismod vestibulum, massa lectus semper nunc, a varius ipsum odio non erat. Nunc interdum purus ipsum, sed convallis velit efficitur sit amet. Nam tortor eros, aliquam ac nibh ultrices, efficitur dictum sem.
+        Vivamus eu fringilla sem. Sed volutpat eros eu velit mattis suscipit. Proin finibus orci et eros pretium dapibus. Morbi at risus pulvinar, eleifend dolor eu, faucibus ex. Aliquam rhoncus rhoncus turpis, in congue quam porta et. Curabitur sagittis varius tellus. Suspendisse id suscipit arcu, maximus finibus tortor. Fusce mattis tortor ut dolor euismod, ut ultrices sapien facilisis.
+        Nullam est purus, porta quis urna sed, auctor volutpat lectus. Suspendisse eleifend laoreet tellus a viverra. In in arcu ut velit aliquet faucibus. Morbi eleifend magna eget ligula lobortis, in accumsan turpis dictum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sagittis lorem rutrum posuere porta. Duis commodo, neque vitae lobortis placerat, tortor est dictum odio, eu viverra magna nibh quis nulla. Quisque et placerat felis, in molestie nisl.
+        Sed ut finibus metus. Pellentesque pellentesque magna vitae accumsan suscipit. Nam nec ex quam. Mauris semper gravida purus eu faucibus. Nullam mollis cursus nibh, nec rhoncus nulla mattis a. Duis in turpis consectetur, molestie sem sed, posuere nisl. Quisque vestibulum dui eu dui ultrices, eget facilisis felis mollis. Fusce volutpat consectetur tellus, eget lacinia elit ornare eget.
+        Ut orci elit, cursus interdum est ac, semper hendrerit dolor. Vivamus sit amet euismod est. Proin rhoncus urna mauris, id suscipit ligula eleifend id. Maecenas scelerisque ultrices neque, ac eleifend justo condimentum eu. Quisque finibus eros eget lacus auctor auctor. Vivamus semper leo ligula, eget suscipit ex auctor nec. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Suspendisse viverra euismod mi, in euismod tortor pharetra in. Phasellus sed sapien ac metus gravida volutpat. Nam feugiat odio arcu, non porta odio pharetra vitae. In a rhoncus risus, vel vulputate ligula. Quisque pellentesque accumsan interdum. In faucibus in sem a congue. Aenean pharetra odio id nulla congue tincidunt. Aenean et consectetur nunc.
+        Fusce in sagittis diam, ut hendrerit ante. Sed sagittis dapibus eros, sit amet condimentum velit scelerisque eu. Pellentesque eget urna faucibus, pretium odio at, rutrum urna. Praesent ac quam fermentum, laoreet sem at, consectetur augue. Vivamus iaculis ultricies est at dictum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vulputate nisl vitae felis porttitor, quis mollis leo vestibulum. Etiam at tristique metus. Cras laoreet varius lacus quis consectetur. Quisque sed magna rutrum, maximus erat vitae, venenatis leo. Vestibulum ut dignissim purus. Aenean lobortis augue vitae tristique tempor. Morbi imperdiet commodo risus, ultricies pulvinar justo sodales fringilla. Duis commodo magna dolor, a blandit nisl bibendum vitae. Maecenas hendrerit dignissim purus nec interdum. 
+"#;
+
+pub mod str_magic;
+
+#[diplomat::bridge]
+pub mod ffi {
+    use core::str;
+    use std::fmt::Write;
+
+    use diplomat_runtime::{DiplomatStr, DiplomatStr16, DiplomatWrite};
+    use rand::rngs::ThreadRng;
+
+    use crate::{Last, str_magic::NGramStats};
+
+    #[diplomat::opaque]
+    pub struct Wrapper(String);
+
+    impl Wrapper {
+        pub fn new() -> Box<Wrapper> {
+            Box::new(Wrapper(String::new()))
+        }
+
+        #[allow(clippy::needless_lifetimes)]
+        pub fn return_inner<'a>(&'a self) -> &'a DiplomatStr {
+            self.0.as_bytes()
+        }
+
+        #[allow(clippy::result_unit_err)]
+        pub fn owned_bytes(&self, write: &mut DiplomatWrite) -> Result<(), ()> {
+            write.write_str(self.0.as_str()).map_err(|_| ())
+        }
+    }
+
+    #[diplomat::opaque]
+    pub struct MarkovKt {
+        rng: ThreadRng,
+        markov: crate::str_magic::Markov4,
+    }
+    impl MarkovKt {
+        #[allow(clippy::needless_lifetimes)]
+        pub fn train<'a>(data: &'a DiplomatStr) -> Box<Self> {
+            let rng = rand::rng();
+            let stats = NGramStats::new(
+                // Diplomat guarantees that DiplomatStr is valid utf8
+                unsafe { str::from_utf8_unchecked(data) },
+            );
+            let markov = stats.markov();
+            Box::new(MarkovKt { rng, markov })
+        }
+
+        /// Not thread safe
+        #[allow(clippy::result_unit_err)]
+        pub fn generate(
+            &mut self,
+            init: &DiplomatStr,
+            bytes_to_generate: i32,
+            write: &mut DiplomatWrite,
+        ) -> Result<(), i32> {
+            //  Diplot guarantees that a DiplomatStr is valid utf8
+            let init = unsafe { str::from_utf8_unchecked(init) };
+            let generated = self
+                .markov
+                .generate(&mut self.rng, init, bytes_to_generate as usize)
+                .map_err(|_| 1)?;
+            write.write_str(&generated).map_err(|_| 1)?;
+            Ok(())
+        }
+    }
+
+    #[diplomat::attr(not(supports = iterators), disable)]
+    #[diplomat::opaque]
+    pub struct LineSplitter(String, regex::Regex);
+
+    #[diplomat::attr(not(supports = iterators), disable)]
+    #[diplomat::opaque]
+    pub struct Spliterator<'a> {
+        index: usize,
+        pub splits: Box<[&'a str]>,
+    }
+
+    impl LineSplitter {
+        #[allow(clippy::needless_lifetimes)]
+        pub fn new<'a>(input: &'a DiplomatStr) -> Box<Self> {
+            Box::new(Self(
+                unsafe { std::str::from_utf8_unchecked(input) }.to_string(),
+                regex::Regex::new(r"\s+").expect("failed to create an obvious regex"),
+            ))
+        }
+
+        #[allow(clippy::needless_lifetimes)]
+        pub fn spliterator<'a>(&'a self) -> Box<Spliterator<'a>> {
+            let splits = self
+                .1
+                .find_iter(self.0.as_str())
+                .map(|s| s.as_str())
+                .collect::<Box<[_]>>();
+            Box::new(Spliterator { index: 0, splits })
+        }
+    }
+
+    #[allow(clippy::needless_lifetimes)]
+    impl<'a> Spliterator<'a> {
+        #[diplomat::attr(auto, iterator)]
+        pub fn next<'b>(&'b mut self) -> Option<&'b DiplomatStr> {
+            let index = self.index;
+            if index >= self.splits.len() {
+                None
+            } else {
+                self.index += 1;
+                self.splits.get(index).map(|a| a.as_bytes())
+            }
+        }
+    }
+
+    #[diplomat::opaque]
+    pub struct Indices(Vec<i64>);
+
+    impl Indices {
+        #[allow(clippy::needless_lifetimes)]
+        pub fn split_newlines<'a>(input: &'a DiplomatStr16) -> Box<Self> {
+            let vec = Self::split_16(input);
+            Box::new(Indices(vec))
+        }
+
+        #[allow(clippy::needless_lifetimes)]
+        pub fn get_indices<'a>(&'a self) -> &'a [i64] {
+            self.0.as_slice()
+        }
+
+        #[allow(clippy::needless_lifetimes)]
+        fn split_16<'a>(input: &'a [u16]) -> Vec<i64> {
+            let input_str = String::from_utf16_lossy(input);
+            let pat = regex::Regex::new(r"\s+").expect("Failed to build regex");
+            let (mut bounds, end_8) = pat
+                .find_iter(&input_str)
+                .scan((0, 0), |(offset_16, offset_8), found| {
+                    let u = found.start();
+                    // comment
+                    let newline_size_16: usize = unsafe { input_str.get_unchecked(*offset_8..u) }
+                        .chars()
+                        .map(|c| c.len_utf16())
+                        .sum();
+                    let new_lines_len: usize = found.as_str().chars().map(|c| c.len_utf16()).sum();
+                    let new_end = *offset_16 + newline_size_16;
+                    let indices = [*offset_16, new_end];
+                    *offset_16 = new_end + new_lines_len;
+                    *offset_8 = found.end();
+                    Some((indices, *offset_8))
+                })
+                .filter(|([start, end], _)| start < end)
+                .flat_map(|(bounds, last)| {
+                    bounds.into_iter().map(move |bound| (bound as i64, last))
+                })
+                .unzip::<i64, _, Vec<_>, Last<usize>>();
+            match end_8.0 {
+                Some(end_8) if end_8 != input_str.len() => {
+                    let len_16: i64 = unsafe { input_str.get_unchecked(end_8..input_str.len()) }
+                        .chars()
+                        .map(|c| c.len_utf16() as i64)
+                        .sum();
+                    let penultimate = input.len() as i64 - len_16;
+                    if len_16 > 0 {
+                        bounds.append(&mut vec![penultimate, input.len() as i64]);
+                    }
+                }
+                None => bounds.append(&mut vec![0, input.len() as i64]),
+                _ => (),
+            }
+            bounds
+        }
+    }
+    #[cfg(test)]
+    mod test {
+        use crate::{LIPSUM, ffi::LineSplitter};
+
+        use super::Indices;
+        use proptest::prelude::*;
+        use regex::Regex;
+        // use std::hint::black_box;
+
+        proptest! {
+            #![proptest_config(ProptestConfig::with_cases(300))]
+            #[test]
+            fn test_split(input in  "([\\S\\ ]{1,256}\n){4,256}[\\S\\ ]{1,256}") {
+                let input_16 = input.encode_utf16().collect::<Vec<u16>>();
+                let sliced_16 = Indices::split_16(&input_16).chunks(2).map(|chunk| {
+                    match chunk {
+                        [start, end] => {
+                            String::from_utf16_lossy(&input_16[(*start as usize)..(*end as usize)])
+                        }
+                        _ => panic!("The length of input 16 should always be even")
+                    }
+
+                }).collect::<Vec<String>>();
+
+                let pat = Regex::new(r"\s+").expect("Failed to build regex");
+                let split = pat
+                    .split(&input)
+                    .map(|slc| slc.to_string())
+                    .filter(|s| !s.is_empty())
+                    .collect::<Vec<_>>();
+                // black_box(split);
+                assert_eq!(sliced_16, split);
+            }
+        }
+
+        #[test]
+        fn test_spliterator() {
+            let line_splitter = LineSplitter::new(LIPSUM.as_bytes());
+            let split = line_splitter.spliterator();
+            println!("{}", split.splits.len());
+        }
+    }
+}
+
+#[diplomat::config(kotlin.lib_name = rustbasel)]
+struct Config;

@@ -1,0 +1,25 @@
+Rust began as a personal project by Mozilla employee Graydon Hoare in 2006. Hoare started the project due to his frustration with a broken elevator in his apartment building. Hoare has stated that Rust was named for the group of fungi that are "over-engineered for survival". During the time period between 2006 and 2009, Rust was not publicized to others at Mozilla and was written in Hoare's free time; Hoare began speaking about the language around 2009 after a small group at Mozilla became interested in the project. Hoare emphasized prioritizing good ideas from old languages over new development, citing languages including CLU, BETA, Mesa, NIL, Erlang, Newsqueak, Napier, Hermes, Sather, Alef, and Limbo as influences, stating "many older languages [are] better than new ones", and describing the language as "technology from the past come to save the future from itself.":   Early Rust developer Manish Goregaokar similarly described Rust as being based on "mostly decades-old research".
+
+During the early years, the Rust compiler was written in about 38,000 lines of OCaml.   Early Rust contained features such as explicit object-oriented programming via an obj keyword.  
+Mozilla sponsorship
+
+Mozilla officially sponsored the Rust project in 2009. Brendan Eich and other executives, intrigued by the possibility of using Rust for a safe web browser engine, placed engineers on the project including Patrick Walton, Niko Matsakis, Felix Klock, and Manish Goregaokar. A conference room taken by the project developers was dubbed "the nerd cave," with a sign placed outside the door.
+
+During this time period, work had shifted from the initial OCaml compiler to a self-hosting compiler, i.e., written in Rust, based on LLVM.[note 4] The Rust ownership system was also in place by 2010. The Rust logo was developed in 2011 based on a bicycle chainring.
+
+The first public release, Rust 0.1 was released on January 20, 2012 for Windows, Linux, and MacOS. The early 2010s saw increasing involvement from open source volunteers outside of Mozilla and outside of the United States. At Mozilla, executives would eventually employ over a dozen engineers to work on Rust full time over the next decade.
+
+Evolution
+
+The years from 2012 to 2015 were marked by substantial changes to the Rust type system, especially, removal of the typestate system, consolidation of other language features, and the removal of the garbage collector.   Memory management through the ownership system was gradually consolidated and expanded to prevent memory-related bugs. By 2013, the garbage collector feature was rarely used, and was removed by the team in favor of the ownership system. Other changes during this time included the removal of pure functions, which were declared by an explicit pure annotation, in March 2013. Specialized syntax support for channels and various pointer types were removed to simplify the language.
+
+Rust's expansion and consolidation was influenced by developers coming from C++ 
+
+Graydon Hoare stepped down from Rust in 2013. This allowed it to evolve organically under a more federated governance structure, with a "core team" of initially six people,:   around 30-40 developers total across various other teams,:   and a Request for Comments process for new language features added in March 2014.   The core team would grow to nine people by 2016:   with over 1600 proposed RFCs.
+
+According to Andrew Binstock writing for Dr. Dobb's Journal in January 2014, while Rust was "widely viewed as a remarkably elegant language", adoption slowed because it radically changed from version to version. Rust development at this time was focused on finalizing the language features and moving towards 1.0 so it could begin promising backward compatibility.  
+
+Six years after Mozilla sponsored its development, the first stable release, Rust 1.0, was published on May 15, 2015. A year after the release, the Rust compiler had accumulated over 1,400 contributors and there were over 5,000 third-party libraries published on the Rust package management website Crates.io.
+
+Rust continues to be a compelling language.
+
