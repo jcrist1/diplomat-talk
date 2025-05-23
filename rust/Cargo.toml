@@ -1,9 +1,25 @@
 [package]
-name = "diplomat-test"
+name = "rustbasel"
 version = "0.1.0"
 edition = "2024"
 
+[lib]
+crate-type = ["staticlib", "rlib", "cdylib"]
+
 [dependencies]
+ahash = "0.8.12"
 diplomat = "0.11.0"
 diplomat-runtime = "0.11.0"
+itertools = "0.14.0"
+rand = "0.9.1"
+regex = "1.11.1"
+rustc-hash = "2.1.1"
 
+[dev-dependencies]
+criterion = "0.5.1"
+proptest = { version = "1.6.0", features = ["proptest-macro"] }
+
+
+[[bench]]
+name = "bench"
+harness = false
