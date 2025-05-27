@@ -25,9 +25,15 @@
   go out of scope. No accidental mutation. Other things are things I like in Scala 
   too: ADTs, exhaustive matches, functional patterns for collections/iterators.
 
-  github: `@jcrist1`
+  github: `@jcrist1` mastodon: `@gigapixel@mathstodon.xyz`
 
-  mastodon: `@gigapixel@mathstodon.xyz`
+  Talk src is available `https://github.com/jcrist1/diplomat-talk`
+]
+#slide[
+    "== Small advertisement"
+    #set align(center)
+    #image("./images/datascience_meetup.png", width: 90%)
+
 ]
 
 #slide[
@@ -229,7 +235,7 @@
 
 
     #uncover("2-")[
-    The HIR is what allows for the diplomat to by polyglot. It is a 
+    The HIR is what allows for the diplomat to be polyglot. It is a 
     "least common denominator" of functionality that can then be shared between
     language backends.
     ]
@@ -278,13 +284,12 @@
         internal val libClass: Class<WrapperLib> = OpaqueLib::class.java
         internal val lib: WrapperLib = Native.load("somelib", libClass)
         
-        fun new_(): Opaque {
-            
-            val returnVal = lib.Opaque_new();
+        fun new_(): Wrapper {
+            val returnVal = lib.Wrapper_new();
             val selfEdges: List<Any> = listOf()
             val handle = returnVal 
-            val returnOpaque = Opaque(handle, selfEdges)
-            CLEANER.register(returnOpaque, Opaque.OpaqueCleaner(handle, Opaque.lib));
+            val returnOpaque = Wrapper(handle, selfEdges)
+            CLEANER.register(returnOpaque, Wrapper.WrapperCleaner(handle, Wrapper.lib));
             return returnOpaque
         }
     }
@@ -304,17 +309,30 @@
 ]
 
 #slide[
-    #reveal-code(lines: (4,8), after: gray)[
+    #set text(14pt)
+    #reveal-code(lines: (15,22), after: gray)[
         ```kotlin
-        ...
+    internal interface WrapperLib: Library {
+        fun Wrapper_destroy(handle: Pointer)
+        fun Wrapper_new(): Pointer
         fun Wrapper_return_inner(handle: Pointer): Slice
-        ...
+    }
+
+    class Wrapper internal constructor (
+        internal val handle: Pointer,
+        internal val selfEdges: List<Any>,
+    )  {
+        companion object {
+            internal val libClass: Class<WrapperLib> = OpaqueLib::class.java
+            internal val lib: WrapperLib = Native.load("somelib", libClass)
+            ...
+        }
 
         fun returnInner(): String {
-            
             val returnVal = lib.Wrapper_return_inner(handle);
                 return PrimitiveArrayTools.getUtf8(returnVal)
         }
+    }
         ```
     ]
 ]

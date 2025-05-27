@@ -138,7 +138,7 @@ pub mod ffi {
         pub fn next<'b>(&'b mut self) -> Option<&'b DiplomatStr> {
             let index = self.index;
             if index >= self.splits.len() {
-                None
+                e
             } else {
                 self.index += 1;
                 self.splits.get(index).map(|a| a.as_bytes())
